@@ -1,0 +1,50 @@
+jQuery('.az-modal').on('shown.bs.modal', function () {
+   
+			
+            var deptid = jQuery("#tr_idproduct").val();
+            jQuery.ajax({
+            url: app_url+'product/show_batch',
+            data: {idprod:deptid},
+                  type: 'post',            
+                  dataType: 'json',
+                  success:function(data) {
+
+                              $.each(data, function(key, value) {				
+
+                                  $('select[name="tr_idbatch_number"]').append('<option value="'+ value.idbatch_number +'">'+ value.batch_number +'</option>');	
+
+                              });				
+                          }			 
+             });
+ 
+			 
+        }); 
+        
+        
+        
+        
+  public function show_batch() {
+		$idproduct = $_POST['idprod'];
+		$result = $this->db->where("idproduct",$idproduct)->get("batch_number_data")->result();
+		#print_r($this->db->last_query());
+        echo json_encode($result);
+	}
+
+//fajar edit
+jQuery('.az-modal').on('shown.bs.modal', function () {	
+    var deptid = jQuery("#tr_idproduct").val();
+    jQuery.ajax({
+    url: app_url+'product/show_batch',
+    data: {idprod:deptid},
+          type: 'post',            
+          dataType: 'json',
+          success:function(data) {
+            $.each(data, function(key, value) {				
+              /*
+              $('select[name="tr_idbatch_number"]').append('<option value="'+ value.idbatch_number +'">'+ value.batch_number +'</option>');	
+              */
+              console.log(value.batch_number);
+            });				
+          }			 
+     });
+});
